@@ -1,4 +1,4 @@
-const path = require('path');
+import path from 'path';
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const merge = require('webpack-merge');
 const validate = require('webpack-validator');
@@ -17,13 +17,33 @@ const common = {
   entry: {
     app: PATHS.app
   },
+  // Add resolve.extensions.
+  // '' is needed to allow imports without an extension.
+  // Note the .'s before extensions as it will fail to match without!!!
+  resolve: {
+    extensions: ['', '.js', '.jsx']
+  },
   output: {
     path: PATHS.build,
     filename: '[name].js'
   },
+  module: {
+    loaders: [
+      {
+        test: /\.jsx?$/,
+        // Enable caching for improved performance during development
+        // It uses default OS directory by default. If you need something
+        // more custom, pass a path to it. I.e., babel?cacheDirectory=<path>
+        loaders: ['babel?cacheDirectory'],
+        // Parse only app files! Without this it will go through entire project.
+        // In addition to being slow, that will most likely result in an error.
+        include: PATHS.app
+      }
+    ]
+  },
   plugins: [
     new HtmlWebpackPlugin({
-      title: 'Webpack demo'
+      template: PATHS.app + '/index.html'
     })
   ]
 };

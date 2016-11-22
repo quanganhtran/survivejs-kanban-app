@@ -1,4 +1,5 @@
 const webpack = require('webpack');
+const NpmInstallPlugin = require('npm-install-webpack-plugin');
 
 exports.devServer = function(options) {
   return {
@@ -27,6 +28,7 @@ exports.devServer = function(options) {
       port: options.port // Defaults to 8080
     },
     plugins: [
+      new NpmInstallPlugin(),
       // Enable multi-pass compilation for enhanced performance
       // in larger projects. Good default.
       new webpack.HotModuleReplacementPlugin({
