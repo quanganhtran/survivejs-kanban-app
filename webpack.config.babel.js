@@ -10,6 +10,9 @@ const PATHS = {
   build: path.join(__dirname, 'build')
 };
 
+const TARGET = process.env.npm_lifecycle_event;
+process.env.BABEL_ENV = TARGET;
+
 const common = {
   // Entry accepts a path or an object of entries.
   // We'll be using the latter form given it's
@@ -48,7 +51,7 @@ const common = {
   ]
 };
 
-var config;
+let config;
 
 // Detect how npm is run and branch based on that
 switch(process.env.npm_lifecycle_event) {
